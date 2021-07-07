@@ -79,8 +79,9 @@ private extension Tokenizer {
                 }
 
                 guard segment.trailingWhitespace == nil,
-                      component.isDelimiter == segment.currentTokenIsDelimiter else {
-                    return finish(segment, with: component, at: nextIndex)
+                    component.isDelimiter == segment.currentTokenIsDelimiter,
+                    segment.tokens.current != "\n" else {
+                        return finish(segment, with: component, at: nextIndex)
                 }
 
                 if component.isDelimiter {
@@ -99,7 +100,6 @@ private extension Tokenizer {
             case .whitespace, .newline:
                 guard var segment = segments.current else {
                     var segment = makeSegment(with: component, at: nextIndex)
-                    segment.trailingWhitespace = component.token
                     segment.isLastOnLine = component.isNewline
                     segments.current = segment
                     return next()

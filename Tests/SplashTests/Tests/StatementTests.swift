@@ -555,4 +555,15 @@ final class StatementTests: SyntaxHighlighterTestCase {
             .plainText("()")
         ])
     }
+
+    func testImportStatementWithLeadingNewline() {
+        let components = highlighter.highlight("\nimport UIKit")
+
+        XCTAssertEqual(components, [
+            .plainText("\n"),
+            .token("import", .keyword),
+            .whitespace(" "),
+            .plainText("UIKit")
+        ])
+    }
 }
